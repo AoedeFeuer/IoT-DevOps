@@ -1,5 +1,13 @@
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--write-kubeconfig-mode=644 --flannel-iface=eth1 server --no-deploy traefik --node-external-ip 192.168.42.110' sh -
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.4/deploy/static/provider/baremetal/deploy.yaml
-sudo dnf -y upgrade && sudo yum -y install net-tools.x86_64
+1. sudo dnf -y upgrade && sudo yum -y install net-tools.x86_64
+(base) curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--write-kubeconfig-mode=644' sh -
+
+S: 
+2. curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--write-kubeconfig-mode=644 --flannel-iface=eth1 server --no-deploy traefik --node-external-ip 192.168.42.110' sh -
+3. kubectl get node -o wide
+4. ifconfig eth1
+5. kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.4/deploy/static/provider/baremetal/deploy.yaml
+
+
+Если нужен докер:
 curl https://releases.rancher.com/install-docker/19.03.sh | sh
 curl -sfL https://get.k3s.io | sh -s - --docker

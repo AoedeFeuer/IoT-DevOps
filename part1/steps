@@ -1,8 +1,13 @@
-sudo dnf -y upgrade
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--write-kubeconfig-mode=644' sh -
-kubectl get node -o wide
-sudo yum -y install net-tools.x86_64
-ifconfig eth1
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode=644 --flannel-iface=eth1" sh -s - server --node-taint CriticalAddonsOnly=true:NoExecute
+1. sudo dnf -y upgrade && sudo yum -y install net-tools.x86_64
+(base) curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--write-kubeconfig-mode=644' sh -
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode=644 --flannel-iface=eth1" K3S_URL=https://192.168.42.110:6443 K3S_TOKEN=K1090975bf77688110b66459d0d092c5602ff9b37d71b940ef080005081703703f5::server:e6c25d27fc539cd60c2c9296dde8eaf0 sh -
+S: 
+2. curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode=644 --flannel-iface=eth1" sh -s - server --node-taint CriticalAddonsOnly=true:NoExecute
+3. kubectl get node -o wide
+4. ifconfig eth1
+5. TOKEN = sudo cat /var/lib/rancher/k3s/server/node-token
+
+SW:
+2. curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--flannel-iface=eth1" K3S_URL=https://192.168.42.110:6443 K3S_TOKEN=${TOKEN} sh -
+3. kubectl get node -o wide
+4. ifconfig eth1

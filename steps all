@@ -1,0 +1,5 @@
+1. setup vagrant
+2. cp -R VirtualBox\ VMs goinfre && rm -rf VirtualBox\ VMs && ln -s $HOME/goinfre/VirtualBox\ VMs $HOME/VirtualBox\ VMs
+    cp -R .vagrant goinfre && cp -R .vagrant.d goinfre/.vagrant.d && rm -rf .vagrant .vagrant.d && ln -s $HOME/goinfre/.vagrant $HOME/.vagrant && ln -s $HOME/goinfre/.vagrant.d $HOME/.vagrant.d
+3. vagrant up (rm -r .vagrant or change UID .vagrant/machines/web/virtualbox/creator_uid)
+4. 
