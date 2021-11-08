@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/anna/Documents/code_proj/IOT/Inception-of-Things-IoT-/part2","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
