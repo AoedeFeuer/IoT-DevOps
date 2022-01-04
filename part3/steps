@@ -3,3 +3,28 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 sudo dnf -y upgrade && sudo yum -y install net-tools.x86_64
 curl https://releases.rancher.com/install-docker/19.03.sh | sh
 curl -sfL https://get.k3s.io | sh -s - --docker
+
+
+k3d cluster create qweissna-cluster --api-port 6443 -p 8080:80@loadbalancer -p 8888:8888@loadbalancer --agents 2
+kubectl get nodes
+kubectl cluster-info
+
+kubectl create namespace argocd
+kubectl apply -f install.yaml -n argocd
+kubectl apply -f ingress.yaml -n argocd
+
+kubectl -n argocd patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "$2y$12$Kg4H0rLL/RVrWUVhj6ykeO3Ei/YqbGaqp.jAtzzUSJdYWT6LUh/n6",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+  }}'
+
+admin and mysupersecretpassword
+
+kubectl create namespace dev
+
+kubectl apply -f project.yaml -n argocd 
+kubectl apply -f application.yaml -n argocd
+
+curl http://localhost:8888/
+

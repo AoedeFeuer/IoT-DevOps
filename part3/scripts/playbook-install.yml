@@ -1,0 +1,39 @@
+---
+- name: K3d, K3s and ARGOCD installation. Part 3
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+  - name: Create k3d cluster
+    shell: >
+      k3d cluster create qweissna-cluster --api-port 6443 -p 8080:80@loadbalancer -p 8888:8888@loadbalancer --agents 2
+
+  - name: Check k3d cluster configuration
+    shell: >
+      kubectl cluster-info
+    register: info_output
+  - debug: msg="{{ info_output.stdout_lines }}"
+
+  - name: Create argocd and dev namespaces
+    shell: >
+      kubectl create namespace argocd && kubectl create namespace dev
+
+  - name: Check namespaces
+    shell: >
+      kubectl get ns
+    register: ns_output
+  - debug: msg="{{ ns_output.stdout_lines }}"
+
+  - name: Create argo cd
+    shell: >
+      kubectl apply -f install.yaml -n argocd &&
+      kubectl apply -f ingress.yaml -n argocd 
+
+  - name: Set admin password for argo cd login
+    shell: > 
+      kubectl -n argocd patch secret argocd-secret -p '{"stringData": {"admin.password": "$2y$12$Kg4H0rLL/RVrWUVhj6ykeO3Ei/YqbGaqp.jAtzzUSJdYWT6LUh/n6", "admin.passwordMtime": "'$(date +%FT%T%Z)'"}}'
+
+  - name: Create application for argo cd
+    shell: >
+      kubectl apply -f project.yaml -n argocd &&
+      kubectl apply -f application.yaml -n argocd

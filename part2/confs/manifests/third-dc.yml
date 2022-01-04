@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: third-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: third
+  template:
+    metadata:
+      labels:
+        app: third
+    spec:
+      containers:
+      - name: third-app
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello, I'm third app"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5678
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: third-app-service
+spec:
+  selector:
+    app: third
+  ports:
+    - port: 5678

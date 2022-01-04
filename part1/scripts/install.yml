@@ -1,0 +1,58 @@
+---
+- name: Vagrant and K3s installation. Part 1
+  hosts: qweissnaS
+  gather_facts: no
+
+  tasks:
+  - name: Get network tools
+    yum: 
+      name: 
+        - net-tools.x86_64
+      state: latest
+    become: true
+
+  - name: Install K3s server to QweissnaS host
+    shell: >
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode=644 --flannel-iface=eth1" sh -s - server --node-taint CriticalAddonsOnly=true:NoExecute
+
+  - name: Check network configuration
+    shell: >
+      ifconfig eth1
+#      kubectl get node -o wide
+    register: node_output
+  - debug: msg="{{ node_output.stdout_lines }}"
+
+- hosts: qweissnaSW
+  gather_facts: no
+  
+  tasks:
+  - name: Get network tools
+    yum: 
+      name: 
+        - net-tools.x86_64
+      state: latest
+    become: true
+
+  - name: Get server token
+    delegate_to: qweissnaS
+    shell: >
+      cat /var/lib/rancher/k3s/server/node-token
+    become: true    
+    register: server_token
+
+  - name: Get server token var
+    delegate_to: qweissnaS
+    set_fact:
+      server_token_for_k3s: "{{ server_token.stdout }}"
+  - debug: msg="{{ server_token_for_k3s }}"
+
+  - name: Install K3s worker to QweissnaSW host  
+    shell: > 
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--flannel-iface=eth1" K3S_URL=https://192.168.42.110:6443 K3S_TOKEN={{ server_token_for_k3s }} sh -
+
+  - name: Check network configuration
+    shell: >
+      ifconfig eth1
+#      kubectl get node -o wide
+    register: node_output
+  - debug: msg="{{ node_output.stdout_lines }}"

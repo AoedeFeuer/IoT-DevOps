@@ -1,1 +1,0 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/goinfre/qweissna/Inception-of-Things-IoT-/part2","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

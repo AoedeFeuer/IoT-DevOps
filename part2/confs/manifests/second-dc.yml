@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: second
+  template:
+    metadata:
+      labels:
+        app: second
+    spec:
+      containers:
+      - name: second-app
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello, I'm second app"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5678
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: second-app-service
+spec:
+  selector:
+    app: second
+  ports:
+    - port: 5678
