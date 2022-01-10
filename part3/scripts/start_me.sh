@@ -38,3 +38,4 @@ echo "\nAfter finishing this installing script, Agro CD may take some time,\nbef
 # login and password Argo CD: "admin" and "securepassword"
 # kubectl get nodes
 # kubectl cluster-info
+# kubectl delete ns argocd dev
