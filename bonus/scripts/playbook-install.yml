@@ -4,6 +4,10 @@
   gather_facts: no
 
   tasks:
+  - name: Install k3d
+    shell: >
+      curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash  
+
   - name: Create k3d cluster
     shell: >
       k3d cluster create qweissna-cluster --api-port 6443 -p 8080:80@loadbalancer -p 8888:8888@loadbalancer --agents 2

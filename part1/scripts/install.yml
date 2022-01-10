@@ -18,7 +18,6 @@
   - name: Check network configuration
     shell: >
       ifconfig eth1
-#      kubectl get node -o wide
     register: node_output
   - debug: msg="{{ node_output.stdout_lines }}"
 
@@ -53,6 +52,5 @@
   - name: Check network configuration
     shell: >
       ifconfig eth1
-#      kubectl get node -o wide
     register: node_output
   - debug: msg="{{ node_output.stdout_lines }}"

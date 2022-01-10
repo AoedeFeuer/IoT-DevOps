@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd-wil-app
+  labels:
+    app: wilapp
+spec:
+  description: ArgoCD Project to deploy wil app
+  sourceRepos:
+  - "{{ paste_repo_url }}/*"
+  destinations:
+  - namespace: dev
+    server: https://kubernetes.default.svc
+  orphanedResources:
+    warn: false

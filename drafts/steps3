@@ -15,11 +15,11 @@ kubectl apply -f ingress.yaml -n argocd
 
 kubectl -n argocd patch secret argocd-secret \
   -p '{"stringData": {
-    "admin.password": "$2y$12$Kg4H0rLL/RVrWUVhj6ykeO3Ei/YqbGaqp.jAtzzUSJdYWT6LUh/n6",
+    "admin.password": "$2a$12$ROqCX5IXuYsT7KwQmZvxReQnxwTb48pBbHAUVhaJ.z/cAqwthqjSe",
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
   }}'
 
-admin and mysupersecretpassword
+admin and securepassword
 
 kubectl create namespace dev
 

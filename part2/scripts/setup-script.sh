@@ -22,3 +22,11 @@ echo "Install ingress..."
 /usr/local/bin/kubectl apply -f ingress.yml
 
 echo "Install ok. Maybe it takes some time before host will become available..."
+
+
+# kubectl get nodes -o wide
+# kubectl get all -n kube-system
+# ifconfig eth1
+# curl -H "Host:app1.com" 192.168.42.110
+# curl -H "Host:app2.com" 192.168.42.110
+# curl -H "Host:app3.com" 192.168.42.110
